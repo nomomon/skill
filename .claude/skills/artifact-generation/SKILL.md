@@ -20,32 +20,44 @@ When `report-kit` or `slide-kit` is loaded, that kit owns the output's structure
 1. Structure: First, resolve the system's temp directory path by running `echo "${TMPDIR:-/tmp}"` via Shell. Use the output as your base path. Write files into a self-contained folder inside the temp directory with a descriptive name (e.g., `/var/folders/w3/.../T/portfolio_site/index.html`). The Write tool creates directories automatically — do not use mkdir or Bash to create directories. **Never pass `$TMPDIR` directly to Write — it only expands in a Shell context; Write treats it as a literal string.**
 2. Entry point: The folder MUST contain an `index.html` file as the site root.
 3. Self-contained: All CSS, JavaScript, images, and other assets should be included within the folder. Use inline styles/scripts or relative paths to local files. You may use the approved CDN libraries listed below — no other external scripts or CDNs are allowed. They will be blocked and fail to load silently.
-4. After generation: Save artifacts to the system's temp directory. First, resolve the temp path by running a Shell command: `echo "${TMPDIR:-/tmp}"`. Use the output (e.g., `/var/folders/.../T/`) as the base path for all subsequent Write calls. **Never pass `$TMPDIR` directly to Write — it's a shell variable that only expands in a Shell context. Write treats it as a literal string.**
+4. After generation: Serve artifacts via a local HTTP server, **not** `file://`. The `file://` protocol blocks cross-origin CDN scripts — they will silently fail to load.
 
-   After writing all files, use the `open` command on macOS, `xdg-open` on Linux, or `start` on Windows to open `index.html` in the browser. You must re-open the file every time you edit it so the browser can reload the updated content.
-   - Example (macOS): `open /var/folders/w3/.../T/my_site/index.html`
+   Start a background server in the artifact directory, then open the localhost URL:
+   ```
+   cd <resolved_temp_path>/my_site && python3 -m http.server 8765 --bind 127.0.0.1 &
+   sleep 1
+   open http://127.0.0.1:8765/index.html
+   ```
+   If port 8765 is in use, try 8766, 8767, etc. The server stays running — refreshing the browser page is enough to see edits. There is no need to restart the server between edits.
+   - Example (macOS): `open http://127.0.0.1:8765/index.html`
+
 Example Workflow:
 1. Run `echo "${TMPDIR:-/tmp}"` via Shell to resolve the temp directory path
 2. Use the Write tool with the resolved absolute path (e.g., `/var/folders/w3/.../T/my_site/index.html`) and any other files
-3. After writing all files, run `open <resolved_path>/my_site/index.html` to open the artifact in the browser
+3. Start a local server and open it:
+   ```bash
+   cd /var/folders/w3/.../T/my_site && python3 -m http.server 8765 --bind 127.0.0.1 &
+   sleep 1 && open http://127.0.0.1:8765/index.html
+   ```
+   To reload after edits: just refresh the browser. The server stays running.
 
 ## Approved CDN Libraries
 The artifact sandbox allows loading scripts from a curated set of CDN-hosted libraries. Use the exact URLs below — other CDN URLs, domains, or library versions will be silently blocked by the Content Security Policy, causing the artifact to break without any visible error.
 
 When a task would benefit from one of these libraries, prefer it over writing the functionality from scratch. For example, use Chart.js for charts instead of hand-drawing SVG, or D3.js for data visualizations.
 
-- Three.js 0.180.0 (3D graphics/WebGL): `https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js`
+- Three.js 0.160.0 (3D graphics/WebGL): `https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js`
 - p5.js 2.0.5 (creative coding/generative art): `https://cdn.jsdelivr.net/npm/p5@2.0.5/lib/p5.min.js`
 - Chart.js 4.5.0 (charts/graphs): `https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js`
 - D3.js 7.9.0 (data visualization/SVG): `https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js`
-- Anime.js 4.3.6 (animation): `https://cdn.jsdelivr.net/npm/animejs@4.3.6/lib/anime.min.js`
+- Anime.js 4.3.6 (animation): `https://cdn.jsdelivr.net/npm/animejs@4.3.6/dist/bundles/anime.umd.min.js`
 - GSAP 3.13.0 (advanced animation/timeline): `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js`
 - Tone.js 15.3.5 (web audio/music synthesis): `https://cdn.jsdelivr.net/npm/tone@15.3.5/build/Tone.min.js`
 - Matter.js 0.20.0 (2D physics): `https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js`
 
 IMPORTANT version notes — these versions may differ from what you were trained on, be sure to check their docs and use the most up to date code.
-- Three.js 0.180.0: Load as a regular `<script>` tag; the global `THREE` variable will be available. Do NOT use ES module imports.
-- Anime.js 4.3.6: v4 has a completely different API from v3. Do NOT use v3 patterns (e.g., `anime({targets: ...})`). Use the v4 API (`animate(targets, properties)`).
+- Three.js 0.160.0: Load as a regular `<script>` tag; the global `THREE` variable will be available. **Version pinned to 0.160.0 — newer versions (r161+) removed UMD builds and are ESM-only.** Do NOT use ES module imports.
+- Anime.js 4.3.6: v4 has a completely different API from v3. Do NOT use v3 patterns (e.g., `anime({targets: ...})`). Use the v4 UMD API: `const { animate } = anime; animate(targets, properties);`. The global is `anime` (not `animejs`).
 - p5.js 2.0.5: v2 has breaking changes from v1. Check the p5.js v2 migration guide.
 
 Do NOT:

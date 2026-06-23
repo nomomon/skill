@@ -177,7 +177,17 @@ Keep the `<link rel="stylesheet" href="style.css">` from the template. Also add 
 
 10. You may add custom CSS classes for your slide content in an inline `<style>` block, but do NOT modify the shell/sidebar/thumbnail/slide-wrap/slide/slide-canvas CSS from `style.css`. Do NOT write your own copy of the framework CSS. An inline `<style>` is only for deck-specific custom classes you author for this deck's content. **Print styles are handled by the bundled `style.css` — do not add your own `@media print` block.** This carves out an explicit exception to the general artifact-generation rule about never overriding backgrounds in print: a slide deck's print mode is presenter-style and chrome-free by design.
 
-11. After writing the file, save artifacts to the system's temp directory. First, resolve the temp path: run `echo "${TMPDIR:-/tmp}"` via Shell. Use the output as the base path for all Write and Shell calls. **Never pass `$TMPDIR` directly to Write — it only expands in a Shell context. Write treats it literally.** After writing all files, run `open <resolved_path>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
+11. After writing the file, serve the artifact via local HTTP — **not** `file://`. The `file://` protocol blocks cross-origin CDN scripts (they silently fail).
+
+   First, resolve the temp path: run `echo "${TMPDIR:-/tmp}"` via Shell. Use the output as the base path. **Never pass `$TMPDIR` directly to Write — it only expands in a Shell context.**
+
+   Then start a background server and open it:
+   ```
+   cd <resolved_temp_path>/<descriptive_name> && python3 -m http.server 8765 --bind 127.0.0.1 &
+   sleep 1
+   open http://127.0.0.1:8765/index.html
+   ```
+   If port 8765 is in use, try 8766, 8767, etc. The server stays running — to see edits, just refresh the browser. There is no need to restart the server or re-run `open`.
 
 12. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck. Do not remove it, do not move it.
 
@@ -574,11 +584,11 @@ The artifact sandbox allows loading scripts from a curated set of CDN-hosted lib
 
 - D3.js 7.9.0: https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js⁠
 
-- Three.js 0.180.0: https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js⁠
+- Three.js 0.160.0: https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js⁠
 
 - p5.js 2.0.5: https://cdn.jsdelivr.net/npm/p5@2.0.5/lib/p5.min.js⁠
 
-- Anime.js 4.3.6: https://cdn.jsdelivr.net/npm/animejs@4.3.6/lib/anime.min.js⁠
+- Anime.js 4.3.6: https://cdn.jsdelivr.net/npm/animejs@4.3.6/dist/bundles/anime.umd.min.js⁠
 
 - GSAP 3.13.0: https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js⁠
 
@@ -586,7 +596,7 @@ The artifact sandbox allows loading scripts from a curated set of CDN-hosted lib
 
 - Matter.js 0.20.0: https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js⁠
 
-Version notes: Three.js loads as a regular script (global `THREE`). Anime.js is v4 API only. p5.js v2 has breaking changes from v1.
+Version notes: Three.js 0.160.0 is the last release with a UMD build (global `THREE`). Newer versions are ESM-only. Anime.js v4 is UMD — access via `const { animate } = anime; animate(targets, properties);`. p5.js v2 has breaking changes from v1.
 
 Do NOT: use versions other than those listed above, use unlisted libraries, or load external fonts. Implement unlisted functionality inline with vanilla HTML/CSS/JavaScript.
 
