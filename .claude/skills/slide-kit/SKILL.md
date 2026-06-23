@@ -59,7 +59,7 @@ Two flavors of question. Both are sometimes necessary. The second is where you a
 
 **Operational unknowns** — concrete details research genuinely couldn't surface: timing, format, presenter, live vs. async, who's actually in the room, which source material to use. Ask these only when research came up empty. They're necessary, not differentiating. Every AI tool can ask these.
 
-**Introspective provocations** — the questions the user wouldn't have asked themselves. The thing they're nervous to say out loud. The bolder version of the argument. The "why" under a load-bearing claim. The line someone in the room will quote afterward. The version with half the slides. The audience-knowledge gap they hadn't located. **This is where Dia wins.** Almost no other tool will ask the user "what's the part of this story you're nervous to say out loud?" — and that's the question that produces a deck the room remembers.
+**Introspective provocations** — the questions the user wouldn't have asked themselves. The thing they're nervous to say out loud. The bolder version of the argument. The "why" under a load-bearing claim. The line someone in the room will quote afterward. The version with half the slides. The audience-knowledge gap they hadn't located. **This is where you win.** Almost no other tool will ask the user "what's the part of this story you're nervous to say out loud?" — and that's the question that produces a deck the room remembers.
 
 Don't run a checklist. Adapt every question to what this deck actually is. Use AskUserQuestion, never plain text. Ask as many as the deck demands; every question must earn its place, but never stop short of the angles the user hadn't considered. A high-stakes deck often warrants a long question round; a quick standup deck might take three. The wrong move is to cap before you've found something the user hadn't thought about.
 
@@ -169,7 +169,7 @@ When the user asks for a **slide deck, presentation, pitch deck, or slides**, us
 
 10. After writing the file, save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, run `open $TMPDIR/<descriptive_name>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
 
-11. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck for Dia's post-processing. Do not remove it, do not move it.
+11. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck. Do not remove it, do not move it.
 
 ## Full template
 
@@ -354,7 +354,7 @@ Slides are a different medium from web pages. Draw on standard slide design trad
 
 ## Color and style
 
-One theme: white slides, black text, monochrome accent. The template’s :root --accent⁠ is set to #000⁠ so the deck takes on the visual identity of the subject rather than Dia’s brand. Don’t override it. Don’t pick custom palettes. Don’t invent multi-color schemes. Use the .accent⁠ class on key words you want to weight typographically; reach for size, weight, and whitespace before color.
+One theme: white slides, black text, monochrome accent. The template’s :root --accent⁠ is set to #000⁠ so the deck takes on the visual identity of the subject rather than a tool’s brand. Don’t override it. Don’t pick custom palettes. Don’t invent multi-color schemes. Use the .accent⁠ class on key words you want to weight typographically; reach for size, weight, and whitespace before color.
 
 Commit to a visual motif. Pick one distinctive element and repeat it on every slide: rounded image frames, icons in small black circles, thick single-side borders, a recurring shape, a numbered tag. The motif is what makes a deck feel designed rather than assembled.
 
