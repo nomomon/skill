@@ -2,13 +2,14 @@
  * Report-Kit App
  *
  * Merged from report-app.js + report-metrics-app.js.
- * Self-initializes with random paper color, random headline font, and
- * the current date. localStorage overrides for user settings.
+ * Defaults to white paper and Exposure headline font.
+ * User changes are persisted to localStorage.
  */
 
 /* ── Constants ──────────────────────────────────────────── */
 
 const PAPERS = [
+  '#FFFFFF',  // white (default)
   '#FAF9F5',  // ivory
   '#FFF8DA',  // canary
   '#F9E8EC',  // rose
@@ -65,11 +66,10 @@ const HEADLINE_FONTS = [
 /* ── Self-initializing defaults ──────────────────────────── */
 
 var bakedDate = new Date();
-var bakedColorIndex = Math.floor(Math.random() * PAPERS.length);
-var bakedFontIndex = Math.floor(Math.random() * HEADLINE_FONTS.length);
+var bakedColorIndex = 0; // white
+var bakedFontIndex = 0; // Exposure
 var CHART_STYLES = ['pattern', 'color', 'inked'];
-var bakedChartStyleIndex = Math.floor(Math.random() * CHART_STYLES.length);
-var bakedChartStyle = CHART_STYLES[bakedChartStyleIndex];
+var bakedChartStyle = CHART_STYLES[0]; // pattern (default)
 
 
 /* ── State ──────────────────────────────────────────────── */
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function () {
     currentColorIndex = saved.color % PAPERS.length;
     currentFontIndex = saved.font % HEADLINE_FONTS.length;
   }
-  // else: already set to bakedColorIndex / bakedFontIndex from server data
+  // else: use hardcoded defaults (white paper, Exposure font)
 
   applyColor(currentColorIndex);
   applyFont(currentFontIndex);
