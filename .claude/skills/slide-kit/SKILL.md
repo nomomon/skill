@@ -1,9 +1,6 @@
-Here’s the full slide-kit SKILL.md:---
-
+---
 name: slide-kit
-
 description: "Use after artifact-generation for ANY request to create slides, decks, or presentations, OR to help the user prepare to present at a meeting. Trigger words include 'slides,' 'deck,' 'presentation,' 'pitch deck,' 'present,' 'presenting,' OR phrasings like 'I need to present at [meeting]', 'I'm presenting to [audience]', 'help me prepare for [all hands / board / kickoff / demo / review / town hall / leadership update]'. For presentation material — including work-related cases — load artifact-generation first, then this skill, and do not respond to the user or call any other tool before that sequence. Do NOT also load work-collaboration for these requests. This skill handles them end-to-end with its own discovery, research, and production flow. Never load this skill in parallel with `report-kit`; a request is one or the other."
-
 ---
 
 ## RULE: Do not produce slides without research, questions, and a clear story.
@@ -348,24 +345,25 @@ When the user asks for a **slide deck, presentation, pitch deck, or slides**, us
 </div>
 </body>
 </html>
+```
 
-Slides are not web pages
+## Slides are not web pages
 
 The most common failure in this skill is producing slides that look like landing-page sections: titles stacked above body content, sub-headers inside slides, dense paragraphs, decorative emojis. Don’t do this.
 
 Slides are a different medium from web pages. Draw on standard slide design tradition: Apple keynotes, McKinsey decks, magazine and editorial spreads, conference talks, designer-built decks. The vocabulary is rich and well-developed. Use your design judgment to pick what serves each slide; vary layouts and the relationship of title to content slide by slide.
 
-Color and style
+## Color and style
 
 One theme: white slides, black text, monochrome accent. The template’s :root --accent⁠ is set to #000⁠ so the deck takes on the visual identity of the subject rather than Dia’s brand. Don’t override it. Don’t pick custom palettes. Don’t invent multi-color schemes. Use the .accent⁠ class on key words you want to weight typographically; reach for size, weight, and whitespace before color.
 
 Commit to a visual motif. Pick one distinctive element and repeat it on every slide: rounded image frames, icons in small black circles, thick single-side borders, a recurring shape, a numbered tag. The motif is what makes a deck feel designed rather than assembled.
 
-For each slide
+## For each slide
 
 Every slide needs a visual element. Image, chart, icon, or shape. Text-only slides are forgettable.
 
-Layout options to mix across the deck:
+### Layout options to mix across the deck:
 
 - Two-column (text on one side, visual on the other)
 
@@ -379,7 +377,7 @@ Layout options to mix across the deck:
 
 - Big number with one sentence of context
 
-Data display patterns:
+### Data display patterns:
 
 - Large stat callouts (big numbers with small labels below)
 
@@ -387,7 +385,7 @@ Data display patterns:
 
 - Timeline or process flow (numbered steps with connectors)
 
-Visual polish:
+### Visual polish:
 
 - Icons in small black circles next to section headers
 
@@ -397,7 +395,7 @@ Visual polish:
 
 Don’t repeat the same layout more than twice across the deck. The rhythm of varied formats is what keeps the eye engaged.
 
-Anti-patterns (specific tells of AI-generated slides)
+## Anti-patterns (specific tells of AI-generated slides)
 
 These reliably mark a deck as AI-generated. Don’t ship any of them.
 
@@ -415,7 +413,7 @@ These reliably mark a deck as AI-generated. Don’t ship any of them.
 
 - Never author a rounded box with a thick colored left border for comparisons, pull quotes, or callouts. That accent-bar-on-a-card shape is an AI tell.
 
-Slide content guidelines
+## Slide content guidelines
 
 - Each slide should have one clear idea. Length follows the story and the time slot.
 
@@ -425,7 +423,7 @@ Slide content guidelines
 
 - Let the story drive the format. Each slide is making a point. Choose the visual format that makes that point land.
 
-Slide sizing and readability (IMPORTANT)
+## Slide sizing and readability (IMPORTANT)
 
 CRITICAL: Content must NEVER overflow or get clipped by the slide. The .slide-canvas⁠ is a fixed 1280×720 pixel canvas. Content authored within it must fit. If content overflows, it will be clipped (the outer .slide⁠ has overflow: hidden⁠). Cut content rather than ship a clipped slide.
 
@@ -451,137 +449,37 @@ Density discipline — slides are not pages. Concrete budget at the design’s t
 
 The bottom of the canvas is a hard wall, not a soft target. When in doubt, cut.
 
-Editable text tags (required for in-place edits)
+## Editable text tags (required for in-place edits)
 
 The artifact-edit harness stamps these tags for inline editing — and ONLY these tags: <p>⁠, <h1>⁠–<h6>⁠, <li>⁠, <blockquote>⁠, <dt>⁠, <dd>⁠, <caption>⁠, <figcaption>⁠, <td>⁠, <th>⁠, <pre>⁠. Text wrapped in plain <div>⁠ cannot be clicked into for editing. Default to <p>⁠ for every slide-content text block.
 
-Typography reference (tokenized, authored at 1280×720 canvas)
+## Typography reference (tokenized, authored at 1280×720 canvas)
 
-Element
-
-Class / Tag
-
-Size
-
-Title slide headline
-
-<h1>⁠ inside .slide-title-stack⁠
-
-128px
-
-Subtitle (under headline)
-
-<p class="subtitle">⁠
-
-48px
-
-Content slide title
-
-<h2>⁠
-
-48px
-
-Section accent / sub-title
-
-<h3>⁠
-
-24px solid black
-
-Body / lede paragraph
-
-<p class="body">⁠
-
-24px
-
-Big number callout
-
-.big-number⁠
-
-140px
-
-Big number context
-
-.big-number-context⁠
-
-24px
-
-Stat value
-
-.stat-value⁠
-
-80px
-
-Stat label
-
-.stat-label⁠
-
-20px muted
-
-Card heading
-
-.card h3⁠
-
-24px solid black
-
-Card body
-
-.card p⁠
-
-24px muted
-
-Quote text
-
-.quote⁠
-
-52px
-
-Bullet title row
-
-.slide-bullets li <strong>⁠
-
-24px
-
-Bullet body row
-
-.slide-bullets li .slide-bullet-text⁠
-
-24px muted
-
-Caption
-
-.type-caption⁠
-
-20px
-
-Tag / eyebrow
-
-.type-tag⁠ or .phi-tag⁠
-
-12px uppercase
-
-Meta header
-
-.slide-meta⁠
-
-15px uppercase
-
-Footnote
-
-.type-footnote⁠
-
-14px
-
-Pull-quote / promo
-
-.philosophy-card .phi-title⁠
-
-34px
-
-
+| Element | Class / Tag | Size |
+| --- | --- | --- |
+| Title slide headline | `<h1>` inside `.slide-title-stack` | 128px |
+| Subtitle (under headline) | `<p class="subtitle">` | 48px |
+| Content slide title | `<h2>` | 48px |
+| Section accent / sub-title | `<h3>` | 24px solid black |
+| Body / lede paragraph | `<p class="body">` | 24px |
+| Big number callout | `.big-number` | 140px |
+| Big number context | `.big-number-context` | 24px |
+| Stat value | `.stat-value` | 80px |
+| Stat label | `.stat-label` | 20px muted |
+| Card heading | `.card h3` | 24px solid black |
+| Card body | `.card p` | 24px muted |
+| Quote text | `.quote` | 52px |
+| Bullet title row | `.slide-bullets li <strong>` | 24px |
+| Bullet body row | `.slide-bullets li .slide-bullet-text` | 24px muted |
+| Caption | `.type-caption` | 20px |
+| Tag / eyebrow | `.type-tag` or `.phi-tag` | 12px uppercase |
+| Meta header | `.slide-meta` | 15px uppercase |
+| Footnote | `.type-footnote` | 14px |
+| Pull-quote / promo | `.philosophy-card .phi-title` | 34px |
 
 Stat consistency rule: When you have multiple peer stats on one slide, they MUST all use the same .stat-value⁠ size.
 
-Layout
+## Layout
 
 - Padding inside .slide-canvas⁠ is 48px 53px⁠ by default (tokens --slide-pad-y⁠ / --slide-pad-x⁠). Don’t override.
 
@@ -591,7 +489,7 @@ Layout
 
 - The canvas scales to fit the actual rendered slide via CSS transform.
 
-Data visualization guidance
+## Data visualization guidance
 
 When a deck involves data, metrics, or analysis, the choice of visualization should follow from what the data is saying.
 
@@ -613,7 +511,7 @@ Match the visualization to the data’s story:
 
 - Showing density or patterns across two dimensions: Heatmap.
 
-Presentation principles:
+### Presentation principles:
 
 - Every chart should have a clear takeaway in the slide heading.
 
@@ -627,15 +525,15 @@ Presentation principles:
 
 - For data readout or metrics decks, aim for roughly half the slides to include a visualization.
 
-Images and avatars
+## Images and avatars
 
 For people/team slides, use the avatar URLs already in your context from research. Real verified avatars are the goal. Initials are a fallback only for people who didn’t appear anywhere in your research.
 
-Where avatar URLs come from
+### Where avatar URLs come from
 
 Every Slack tool response includes an <authorAvatarURL>⁠ field for the author of every message. By the time you’re producing a team slide, your research has almost certainly surfaced messages authored by the people on the team — their avatar URLs are already in your context. Use them.
 
-Default flow for a team slide
+### Default flow for a team slide
 
 For each person on the slide:
 
@@ -647,7 +545,7 @@ For each person on the slide:
 
 - If still nothing, fall back to the .initial-avatar⁠ CSS class with their initials.
 
-Never
+### Never
 
 - Use a URL you can’t trace to a specific message authored by that exact person.
 
@@ -655,11 +553,11 @@ Never
 
 - Default to initials for everyone when avatar URLs are sitting in your context.
 
-Local/attached images
+### Local/attached images
 
 Put the proxy file in images/⁠ at the artifact root with the filename unchanged, and reference via relative path.
 
-Approved CDN Libraries
+## Approved CDN Libraries
 
 The artifact sandbox allows loading scripts from a curated set of CDN-hosted libraries. Use the exact URLs below — other CDN URLs will be silently blocked by the Content Security Policy.
 
@@ -683,7 +581,7 @@ Version notes: Three.js is ES module only. Anime.js is v4 API only. p5.js v2 has
 
 Do NOT: use any CDN domain other than artifactcdn.diabrowser.engineering⁠, use unlisted libraries, use different versions, or load external fonts. Implement unlisted functionality inline with vanilla HTML/CSS/JavaScript.
 
-Title tag
+## Title tag
 
 When creating a <title>⁠, NEVER use an em dash or dash, “–” or “-”.
 
