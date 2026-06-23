@@ -34,7 +34,7 @@ Write a complete `index.html`. The `<head>` MUST include:
 <link rel="stylesheet" href="style.css">
 ```
 
-You MUST manually copy the following files from the skill's `assets/` directory into your artifact directory alongside `index.html` using the `Write` tool:
+You MUST manually copy the following files from the skill's `assets/` directory into your artifact directory alongside `index.html` using the `Bash` tool (or `Write` tool if failing that).
 - `style.css`
 - `app.js`
 
