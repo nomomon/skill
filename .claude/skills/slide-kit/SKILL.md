@@ -560,25 +560,25 @@ Put the proxy file in images/⁠ at the artifact root with the filename unchange
 
 The artifact sandbox allows loading scripts from a curated set of CDN-hosted libraries. Use the exact URLs below — other CDN URLs will be silently blocked by the Content Security Policy.
 
-- Chart.js 4.5.0: https://artifactcdn.diabrowser.engineering/ajax/libs/Chart.js/chart.umd.js⁠
+- Chart.js 4.5.0: https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js⁠
 
-- D3.js 7.9.0: https://artifactcdn.diabrowser.engineering/ajax/libs/d3/d3.min.js⁠
+- D3.js 7.9.0: https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js⁠
 
-- Three.js 0.180.0: https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/three.module.js⁠
+- Three.js 0.180.0: https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js⁠
 
-- p5.js 2.0.5: https://artifactcdn.diabrowser.engineering/ajax/libs/p5.js/p5.min.js⁠
+- p5.js 2.0.5: https://cdn.jsdelivr.net/npm/p5@2.0.5/lib/p5.min.js⁠
 
-- Anime.js 4.3.6: https://artifactcdn.diabrowser.engineering/ajax/libs/animejs/anime.min.js⁠
+- Anime.js 4.3.6: https://cdn.jsdelivr.net/npm/animejs@4.3.6/lib/anime.min.js⁠
 
-- GSAP 3.13.0: https://artifactcdn.diabrowser.engineering/ajax/libs/gsap/gsap.min.js⁠
+- GSAP 3.13.0: https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js⁠
 
-- Tone.js 15.3.5: https://artifactcdn.diabrowser.engineering/ajax/libs/tone/Tone.min.js⁠
+- Tone.js 15.3.5: https://cdn.jsdelivr.net/npm/tone@15.3.5/build/Tone.min.js⁠
 
-- Matter.js 0.20.0: https://artifactcdn.diabrowser.engineering/ajax/libs/matter-js/matter.min.js⁠
+- Matter.js 0.20.0: https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js⁠
 
-Version notes: Three.js is ES module only. Anime.js is v4 API only. p5.js v2 has breaking changes from v1.
+Version notes: Three.js loads as a regular script (global `THREE`). Anime.js is v4 API only. p5.js v2 has breaking changes from v1.
 
-Do NOT: use any CDN domain other than artifactcdn.diabrowser.engineering⁠, use unlisted libraries, use different versions, or load external fonts. Implement unlisted functionality inline with vanilla HTML/CSS/JavaScript.
+Do NOT: use versions other than those listed above, use unlisted libraries, or load external fonts. Implement unlisted functionality inline with vanilla HTML/CSS/JavaScript.
 
 ## Title tag
 

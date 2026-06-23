@@ -33,26 +33,25 @@ The artifact sandbox allows loading scripts from a curated set of CDN-hosted lib
 
 When a task would benefit from one of these libraries, prefer it over writing the functionality from scratch. For example, use Chart.js for charts instead of hand-drawing SVG, or D3.js for data visualizations.
 
-- Three.js 0.180.0 (3D graphics/WebGL): `https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/three.module.js`
-- p5.js 2.0.5 (creative coding/generative art): `https://artifactcdn.diabrowser.engineering/ajax/libs/p5.js/p5.min.js`
-- Chart.js 4.5.0 (charts/graphs): `https://artifactcdn.diabrowser.engineering/ajax/libs/Chart.js/chart.umd.js`
-- D3.js 7.9.0 (data visualization/SVG): `https://artifactcdn.diabrowser.engineering/ajax/libs/d3/d3.min.js`
-- Anime.js 4.3.6 (animation): `https://artifactcdn.diabrowser.engineering/ajax/libs/animejs/anime.min.js`
-- GSAP 3.13.0 (advanced animation/timeline): `https://artifactcdn.diabrowser.engineering/ajax/libs/gsap/gsap.min.js`
-- Tone.js 15.3.5 (web audio/music synthesis): `https://artifactcdn.diabrowser.engineering/ajax/libs/tone/Tone.min.js`
-- Matter.js 0.20.0 (2D physics): `https://artifactcdn.diabrowser.engineering/ajax/libs/matter-js/matter.min.js`
+- Three.js 0.180.0 (3D graphics/WebGL): `https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js`
+- p5.js 2.0.5 (creative coding/generative art): `https://cdn.jsdelivr.net/npm/p5@2.0.5/lib/p5.min.js`
+- Chart.js 4.5.0 (charts/graphs): `https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js`
+- D3.js 7.9.0 (data visualization/SVG): `https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js`
+- Anime.js 4.3.6 (animation): `https://cdn.jsdelivr.net/npm/animejs@4.3.6/lib/anime.min.js`
+- GSAP 3.13.0 (advanced animation/timeline): `https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js`
+- Tone.js 15.3.5 (web audio/music synthesis): `https://cdn.jsdelivr.net/npm/tone@15.3.5/build/Tone.min.js`
+- Matter.js 0.20.0 (2D physics): `https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js`
 
 IMPORTANT version notes — these versions may differ from what you were trained on, be sure to check their docs and use the most up to date code.
-- Three.js 0.180.0: This is an ES module — load it with `<script type="module">` and use `import * as THREE from '...'`. Do NOT load Three.js from `jsdelivr.net`, `unpkg.com`, or any other CDN.
+- Three.js 0.180.0: Load as a regular `<script>` tag; the global `THREE` variable will be available. Do NOT use ES module imports.
 - Anime.js 4.3.6: v4 has a completely different API from v3. Do NOT use v3 patterns (e.g., `anime({targets: ...})`). Use the v4 API (`animate(targets, properties)`).
 - p5.js 2.0.5: v2 has breaking changes from v1. Check the p5.js v2 migration guide.
 
 Do NOT:
-- Use any CDN domain other than `artifactcdn.diabrowser.engineering` (e.g., no `cdnjs.cloudflare.com`, `unpkg.com`, `jsdelivr.net`, `cdn.jsdelivr.net`, etc.)
+- Use versions other than those listed above
+- Use libraries not listed above (e.g., no Plotly, jQuery, Highcharts, etc.)
 - Use ES module imports from unapproved URLs — only import from the exact approved URLs listed above.
-- Use any library not listed above (e.g., no Plotly, jQuery, Highcharts, etc.)
-- Use different versions of the libraries above
-- Load external fonts (e.g., Google Fonts) — the CSP blocks external stylesheets. Use system fonts instead.
+- Load external fonts (e.g., Google Fonts) — external stylesheets may not load reliably. Use system fonts instead.
 
 If a task requires a library not listed above, implement the functionality inline using vanilla HTML/CSS/JavaScript.
 
