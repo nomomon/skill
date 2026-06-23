@@ -17,9 +17,9 @@
 
 @font-face {
   font-family: 'Exposure';
-  src: url('fonts/Exposure-550-Italic.woff2') format('woff2');
-  font-weight: 550;
-  font-style: italic;
+  src: url('fonts/Exposure-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
