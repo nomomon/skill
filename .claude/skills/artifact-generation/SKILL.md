@@ -1,17 +1,17 @@
 ---
 name: artifact-generation
-description: "Load before producing any standalone generated output that will be uploaded with upload_artifact so the shared artifact runtime, upload mechanics, sandbox constraints, and approved libraries are in context. Use this skill directly for standalone non-prose artifacts: dashboards, trackers, boards, calculators, diagrams, maps, visualizations, interactive timelines, interactive matrices, exploratory interfaces, games, apps, websites, and other interactive or designed tools. For prose-driven Reports or slide decks, load this first, then use report-kit or slide-kit for the output-specific rules."
+description: "Load before producing any standalone generated output that will be saved to a temp directory and opened in a browser so the shared artifact runtime, file mechanics, sandbox constraints, and approved libraries are in context. Use this skill directly for standalone non-prose artifacts: dashboards, trackers, boards, calculators, diagrams, maps, visualizations, interactive timelines, interactive matrices, exploratory interfaces, games, apps, websites, and other interactive or designed tools. For prose-driven Reports or slide decks, load this first, then use report-kit or slide-kit for the output-specific rules."
 ---
 
 ## Hard gate before producing
 
-Before calling `upload_artifact` for the first time on any standalone generated output:
+Before writing output files for any standalone generated artifact:
 
 - If the artifact is a Report (memo, brief, recap, profile, analysis, recommendation, meeting prep guide, written synthesis, or other prose-driven standalone deliverable) — `report-kit` MUST already be loaded. If it isn't, stop and load it via the `Skill` tool before writing `index.html`.
 - If the artifact is a slide deck (slides, presentation, pitch deck, kickoff deck, board deck, meeting deck) — `slide-kit` MUST already be loaded. If it isn't, your next action must be loading `slide-kit` via the `Skill` tool before any research, writing, or upload. Do not use this skill alone and do not load work-collaboration for presentation requests.
 - If the artifact is a non-prose format (dashboard, tracker, board, interactive matrix, calculator, game, visualization, generative-art piece, fun website, app, diagram, map, interactive timeline, exploratory interface, educational tool) — no kit needed; this skill's mechanics + design floor are sufficient.
-- If you tell the user you will build an artifact, your next actions must be writing files and calling `upload_artifact`; a chat promise is not completion.
-- If the request is an action, quick lookup, simple data query/readout, or retrieval task whose natural destination is chat or another product — calendar changes, email or Slack drafts, quick calculations, conversions, one-hop definitions, link-finding, or "find the first mention/source" searches — do not call `upload_artifact` unless the user explicitly asks for a standalone non-prose artifact. This does not apply to multi-part Reports or explicitly named non-prose artifacts.
+- If you tell the user you will build an artifact, your next actions must be writing files and opening the artifact in the browser; a chat promise is not completion.
+- If the request is an action, quick lookup, simple data query/readout, or retrieval task whose natural destination is chat or another product — calendar changes, email or Slack drafts, quick calculations, conversions, one-hop definitions, link-finding, or "find the first mention/source" searches — do not produce an artifact unless the user explicitly asks for a standalone non-prose artifact. This does not apply to multi-part Reports or explicitly named non-prose artifacts.
 
 The kit's rules must be in context when you write the HTML. Reading them after-the-fact and patching the output is not the same. If you find yourself about to produce a report or slide deck without the corresponding kit loaded, stop and load it now.
 
@@ -20,13 +20,13 @@ When `report-kit` or `slide-kit` is loaded, that kit owns the output's structure
 1. Structure: Write files into a self-contained folder inside `{working_dir}/artifacts/` with a descriptive name (e.g., `{working_dir}/artifacts/portfolio_site/index.html`). The Write tool creates directories automatically — do not use mkdir or Bash to create directories.
 2. Entry point: The folder MUST contain an `index.html` file as the site root.
 3. Self-contained: All CSS, JavaScript, images, and other assets should be included within the folder. Use inline styles/scripts or relative paths to local files. You may use the approved CDN libraries listed below — no other external scripts or CDNs are allowed. They will be blocked and fail to load silently.
-4. After generation: Call `upload_artifact` with the absolute path to the artifact folder to open it in the user's browser. If a specific page was being edited, specify the relative path that should be opened, otherwise the root index.html will be opened. IMPORTANT: You must call `upload_artifact` every time you edit an artifact's files, not just when you first create it. The browser needs this call to reload the updated content.
-   - Parameters: `site_root` (the root folder containing all artifact files and the root index.html), `relative_path` (the relative path of the page within the artifact to open, if blank will open the root index.html by default)
+4. After generation: Save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, use the `open` command on macOS, `xdg-open` on Linux, or `start` on Windows to open `index.html` in the browser. You must re-open the file every time you edit it so the browser can reload the updated content.
+   - Example: `open $TMPDIR/my_site/index.html`
 5. Badge clearance: A "Made with Dia" badge (28 px tall) is overlaid at the bottom center of every artifact, 12 px above the viewport edge. Leave at least 52 px of clear space at the bottom of your layout so the badge does not obscure content.
 
 Example Workflow:
-1. Use the Write tool to create `{working_dir}/artifacts/my_site/index.html` and any other files (the Write tool automatically creates parent directories — no mkdir needed)
-2. Call `upload_artifact` with the absolute path to the artifact folder and the relative path to the specific page if applicable
+1. Use the Write tool to create `$TMPDIR/my_site/index.html` (or `/tmp/my_site/index.html` as fallback) and any other files
+2. After writing all files, run `open $TMPDIR/my_site/index.html` to open the artifact in the browser
 
 ## Approved CDN Libraries
 The artifact sandbox allows loading scripts from a curated set of CDN-hosted libraries. Use the exact URLs below — other CDN URLs, domains, or library versions will be silently blocked by the Content Security Policy, causing the artifact to break without any visible error.

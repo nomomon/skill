@@ -25,7 +25,7 @@ description: "Use after artifact-generation when producing a standalone prose-dr
 
 ### Setup
 
-A Report is not complete until you write the Report files and call `upload_artifact`. Do not stop after gathering sources, outlining the answer, giving a prose summary, or saying you can make the Report.
+A Report is not complete until you write the Report files and open `index.html` in the browser. Do not stop after gathering sources, outlining the answer, giving a prose summary, or saying you can make the Report.
 
 Write a complete `index.html`. The `<head>` MUST include:
 ```html
@@ -39,7 +39,7 @@ The server automatically handles:
 - Injecting date, randomized paper color, and randomized headline font
 - Settings panel (color swatches + font picker), paper grain texture, ink-texture filters, badge rotation, and fade-in animation
 
-You write ZERO JavaScript for styling, date, randomization, or settings. Just write HTML with the correct class names and call `upload_artifact`.
+You write ZERO JavaScript for styling, date, randomization, or settings. Just write HTML with the correct class names and open `index.html` in the browser.
 
 Report Kit layers on top of `artifact-generation`: that skill provides the shared upload mechanics, sandbox constraints, and approved library context; this skill provides the fixed Report design system and Report-specific Chart.js usage below.
 

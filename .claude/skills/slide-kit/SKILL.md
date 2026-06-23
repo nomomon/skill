@@ -5,7 +5,7 @@ description: "Use after artifact-generation for ANY request to create slides, de
 
 ## RULE: Do not produce slides without research, questions, and a clear story.
 
-Do not call `upload_artifact`, `Bash`, `Write`, `Edit`, or any output-producing or file-writing tool until you have done all three of the following, in order:
+Do not produce output or write any files until you have done all three of the following, in order:
 
 1. **Researched** with multiple tools — Slack, calendar, email, Notion, Drive, memory, web. A single tool call does not count. Aim to cover audience, occasion, source material, and stakes.
 
@@ -167,9 +167,7 @@ When the user asks for a **slide deck, presentation, pitch deck, or slides**, us
 
 9. You may add custom CSS classes for your slide content, but do NOT modify the shell/sidebar/thumbnail/slide-wrap/slide/slide-canvas CSS. **The server automatically copies `style.css`, `app.js`, and `fonts/` into your artifact at upload time.** Keep the `<link rel="stylesheet" href="style.css">` from the template; do NOT write your own copy of the framework CSS in a `<style>` block. An inline `<style>` is only for deck-specific custom classes you author for this deck's content. **Print styles are handled by the bundled `style.css` — do not add your own `@media print` block.** This carves out an explicit exception to the general artifact-generation rule about never overriding backgrounds in print: a slide deck's print mode is presenter-style and chrome-free by design.
 
-10. After writing the file, call `upload_artifact` with the absolute path to the artifact folder. **You must call `upload_artifact` every time you edit the files, not just on first create.**
-
-   - Parameters: `site_root` (the root folder containing all artifact files and the root index.html), `relative_path` (optional, defaults to index.html)
+10. After writing the file, save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, run `open $TMPDIR/<descriptive_name>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
 
 11. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck for Dia's post-processing. Do not remove it, do not move it.
 
