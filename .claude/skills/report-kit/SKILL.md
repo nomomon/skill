@@ -34,10 +34,10 @@ Write a complete `index.html`. The `<head>` MUST include:
 <link rel="stylesheet" href="style.css">
 ```
 
-Before you write `index.html`, copy the skill's runtime assets into the artifact directory. Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory):
+Before you write `index.html`, copy the skill's runtime assets into the artifact directory. Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory). The target directory must already exist (created when you wrote `index.html` via Write, or create it first with `mkdir -p`):
 
 ```
-cp -r .claude/skills/report-kit/assets/* "$TMPDIR/<descriptive_folder>/"
+cp -r .claude/skills/report-kit/assets/* "<resolved_temp_path>/"
 ```
 
 This copies all three required items:

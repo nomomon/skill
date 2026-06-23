@@ -165,10 +165,10 @@ When the user asks for a **slide deck, presentation, pitch deck, or slides**, us
 
 8. Leave `--accent` as the default `#000` black. Don't override it; don't pick custom palettes (see Color and style section).
 
-9. **Copy the skill's runtime assets into your artifact directory.** Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory):
+9. **Copy the skill's runtime assets into your artifact directory.** Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory). The target directory must already exist (create it first with `mkdir -p` if needed):
 
 ```
-cp -r .claude/skills/slide-kit/assets/* "$TMPDIR/<descriptive_folder>/"
+cp -r .claude/skills/slide-kit/assets/* "<resolved_temp_path>/"
 ```
 
 This copies: `style.css` (deck shell, sidebar, canvas scaling), `app.js` (navigation, thumbnails, presenter mode), and `fonts/` (Exposure typeface). After copying, verify with `ls` that all three exist — if `fonts/` is missing, the deck renders but typography falls back to system fonts with no visible error.
@@ -177,7 +177,7 @@ Keep the `<link rel="stylesheet" href="style.css">` from the template. Also add 
 
 10. You may add custom CSS classes for your slide content in an inline `<style>` block, but do NOT modify the shell/sidebar/thumbnail/slide-wrap/slide/slide-canvas CSS from `style.css`. Do NOT write your own copy of the framework CSS. An inline `<style>` is only for deck-specific custom classes you author for this deck's content. **Print styles are handled by the bundled `style.css` — do not add your own `@media print` block.** This carves out an explicit exception to the general artifact-generation rule about never overriding backgrounds in print: a slide deck's print mode is presenter-style and chrome-free by design.
 
-11. After writing the file, save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, run `open $TMPDIR/<descriptive_name>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
+11. After writing the file, save artifacts to the system's temp directory. First, resolve the temp path: run `echo "${TMPDIR:-/tmp}"` via Shell. Use the output as the base path for all Write and Shell calls. **Never pass `$TMPDIR` directly to Write — it only expands in a Shell context. Write treats it literally.** After writing all files, run `open <resolved_path>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
 
 12. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck. Do not remove it, do not move it.
 

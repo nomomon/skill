@@ -17,14 +17,17 @@ The kit's rules must be in context when you write the HTML. Reading them after-t
 
 When `report-kit` or `slide-kit` is loaded, that kit owns the output's structure, visual system, and production flow. Use this skill for shared upload mechanics, sandbox constraints, approved libraries, and generic artifact rules only where the kit does not provide a more specific instruction.
 
-1. Structure: Write files into a self-contained folder inside `{working_dir}/artifacts/` with a descriptive name (e.g., `{working_dir}/artifacts/portfolio_site/index.html`). The Write tool creates directories automatically — do not use mkdir or Bash to create directories.
+1. Structure: First, resolve the system's temp directory path by running `echo "${TMPDIR:-/tmp}"` via Shell. Use the output as your base path. Write files into a self-contained folder inside the temp directory with a descriptive name (e.g., `/var/folders/w3/.../T/portfolio_site/index.html`). The Write tool creates directories automatically — do not use mkdir or Bash to create directories. **Never pass `$TMPDIR` directly to Write — it only expands in a Shell context; Write treats it as a literal string.**
 2. Entry point: The folder MUST contain an `index.html` file as the site root.
 3. Self-contained: All CSS, JavaScript, images, and other assets should be included within the folder. Use inline styles/scripts or relative paths to local files. You may use the approved CDN libraries listed below — no other external scripts or CDNs are allowed. They will be blocked and fail to load silently.
-4. After generation: Save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, use the `open` command on macOS, `xdg-open` on Linux, or `start` on Windows to open `index.html` in the browser. You must re-open the file every time you edit it so the browser can reload the updated content.
-   - Example: `open $TMPDIR/my_site/index.html`
+4. After generation: Save artifacts to the system's temp directory. First, resolve the temp path by running a Shell command: `echo "${TMPDIR:-/tmp}"`. Use the output (e.g., `/var/folders/.../T/`) as the base path for all subsequent Write calls. **Never pass `$TMPDIR` directly to Write — it's a shell variable that only expands in a Shell context. Write treats it as a literal string.**
+
+   After writing all files, use the `open` command on macOS, `xdg-open` on Linux, or `start` on Windows to open `index.html` in the browser. You must re-open the file every time you edit it so the browser can reload the updated content.
+   - Example (macOS): `open /var/folders/w3/.../T/my_site/index.html`
 Example Workflow:
-1. Use the Write tool to create `$TMPDIR/my_site/index.html` (or `/tmp/my_site/index.html` as fallback) and any other files
-2. After writing all files, run `open $TMPDIR/my_site/index.html` to open the artifact in the browser
+1. Run `echo "${TMPDIR:-/tmp}"` via Shell to resolve the temp directory path
+2. Use the Write tool with the resolved absolute path (e.g., `/var/folders/w3/.../T/my_site/index.html`) and any other files
+3. After writing all files, run `open <resolved_path>/my_site/index.html` to open the artifact in the browser
 
 ## Approved CDN Libraries
 The artifact sandbox allows loading scripts from a curated set of CDN-hosted libraries. Use the exact URLs below — other CDN URLs, domains, or library versions will be silently blocked by the Content Security Policy, causing the artifact to break without any visible error.
