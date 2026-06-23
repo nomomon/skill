@@ -34,8 +34,15 @@ Write a complete `index.html`. The `<head>` MUST include:
 <link rel="stylesheet" href="style.css">
 ```
 
-The server automatically handles:
-- Copying `style.css`, `app.js`, and fonts into your artifact directory at upload time
+You MUST manually copy the following files from the skill's `assets/` directory into your artifact directory alongside `index.html` using the `Write` tool:
+- `style.css`
+- `app.js`
+
+Reference these assets via relative paths in `index.html`:
+- `<link rel="stylesheet" href="style.css">` (already in the `<head>` template below)
+- `<script src="app.js"></script>` before `</body>`
+
+These assets provide:
 - Injecting date, randomized paper color, and randomized headline font
 - Settings panel (color swatches + font picker), paper grain texture, ink-texture filters, badge rotation, and fade-in animation
 

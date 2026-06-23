@@ -2,8 +2,8 @@
  * Report-Kit App
  *
  * Merged from report-app.js + report-metrics-app.js.
- * Reads server-baked values from <script id="report-data"> for date and
- * initial color/font randomization. localStorage overrides for user settings.
+ * Self-initializes with random paper color, random headline font, and
+ * the current date. localStorage overrides for user settings.
  */
 
 /* ── Constants ──────────────────────────────────────────── */
@@ -62,21 +62,13 @@ const HEADLINE_FONTS = [
 ];
 
 
-/* ── Server-baked data ──────────────────────────────────── */
+/* ── Self-initializing defaults ──────────────────────────── */
 
-var _reportData = {};
-try {
-  var _el = document.getElementById('report-data');
-  if (_el) _reportData = JSON.parse(_el.textContent || '{}');
-} catch (e) { /* silent */ }
-
-var bakedDate = _reportData.date ? new Date(_reportData.date) : new Date();
-var bakedColorIndex = typeof _reportData.colorIndex === 'number' ? _reportData.colorIndex % PAPERS.length : 0;
-var bakedFontIndex = typeof _reportData.fontIndex === 'number' ? _reportData.fontIndex % HEADLINE_FONTS.length : 0;
-// Order must match `ReportKitPostProcessor.chartStyleCount` and the server-side
-// `bakedChartStyleIndex` mapping; index 0 is the legacy default ('pattern').
+var bakedDate = new Date();
+var bakedColorIndex = Math.floor(Math.random() * PAPERS.length);
+var bakedFontIndex = Math.floor(Math.random() * HEADLINE_FONTS.length);
 var CHART_STYLES = ['pattern', 'color', 'inked'];
-var bakedChartStyleIndex = typeof _reportData.chartStyleIndex === 'number' ? _reportData.chartStyleIndex % CHART_STYLES.length : 0;
+var bakedChartStyleIndex = Math.floor(Math.random() * CHART_STYLES.length);
 var bakedChartStyle = CHART_STYLES[bakedChartStyleIndex];
 
 
@@ -709,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Load user-overridden settings, fall back to server-baked values
+  // Load user-overridden settings, fall back to randomized defaults
   var saved = loadSettings();
   if (saved && typeof saved.color === 'number' && typeof saved.font === 'number') {
     currentColorIndex = saved.color % PAPERS.length;
