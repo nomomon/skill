@@ -165,11 +165,21 @@ When the user asks for a **slide deck, presentation, pitch deck, or slides**, us
 
 8. Leave `--accent` as the default `#000` black. Don't override it; don't pick custom palettes (see Color and style section).
 
-9. You may add custom CSS classes for your slide content, but do NOT modify the shell/sidebar/thumbnail/slide-wrap/slide/slide-canvas CSS. **You MUST copy `style.css`, `app.js`, and the `fonts/` directory from the skill's `assets/` directory into your artifact directory alongside `index.html`.** Use the Bash tool to copy these files. Keep the `<link rel="stylesheet" href="style.css">` from the template; also add `<script src="app.js"></script>` before `</body>`. Do NOT write your own copy of the framework CSS in a `<style>` block. An inline `<style>` is only for deck-specific custom classes you author for this deck's content. **Print styles are handled by the bundled `style.css` — do not add your own `@media print` block.** This carves out an explicit exception to the general artifact-generation rule about never overriding backgrounds in print: a slide deck's print mode is presenter-style and chrome-free by design.
+9. **Copy the skill's runtime assets into your artifact directory.** Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory):
 
-10. After writing the file, save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, run `open $TMPDIR/<descriptive_name>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
+```
+cp -r .claude/skills/slide-kit/assets/* "$TMPDIR/<descriptive_folder>/"
+```
 
-11. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck. Do not remove it, do not move it.
+This copies: `style.css` (deck shell, sidebar, canvas scaling), `app.js` (navigation, thumbnails, presenter mode), and `fonts/` (Exposure typeface). After copying, verify with `ls` that all three exist — if `fonts/` is missing, the deck renders but typography falls back to system fonts with no visible error.
+
+Keep the `<link rel="stylesheet" href="style.css">` from the template. Also add `<script src="app.js"></script>` before `</body>` in your `index.html`.
+
+10. You may add custom CSS classes for your slide content in an inline `<style>` block, but do NOT modify the shell/sidebar/thumbnail/slide-wrap/slide/slide-canvas CSS from `style.css`. Do NOT write your own copy of the framework CSS. An inline `<style>` is only for deck-specific custom classes you author for this deck's content. **Print styles are handled by the bundled `style.css` — do not add your own `@media print` block.** This carves out an explicit exception to the general artifact-generation rule about never overriding backgrounds in print: a slide deck's print mode is presenter-style and chrome-free by design.
+
+11. After writing the file, save artifacts to the system's temp directory. Use `$TMPDIR` on macOS (which resolves to something like `/var/folders/.../T/`), or `/tmp` as fallback. After writing all files, run `open $TMPDIR/<descriptive_name>/index.html` (macOS), `xdg-open` (Linux), or `start` (Windows) to open the artifact in the browser. **You must re-open the file every time you edit it, not just on first create.**
+
+12. **CRITICAL:** Keep the `<!-- slide-kit -->` HTML comment as the first thing inside `<body>`. This marker identifies the artifact as a slide deck. Do not remove it, do not move it.
 
 ## Full template
 

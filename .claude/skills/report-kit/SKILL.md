@@ -34,12 +34,20 @@ Write a complete `index.html`. The `<head>` MUST include:
 <link rel="stylesheet" href="style.css">
 ```
 
-You MUST copy the following files from the skill's `assets/` directory into your artifact directory alongside `index.html` using the `Bash` tool:
-- `style.css`
-- `app.js`
-- `fonts/`
+Before you write `index.html`, copy the skill's runtime assets into the artifact directory. Use the `Bash` tool with `cp -r` (the `-r` flag is required — `fonts/` is a directory):
 
-Reference these assets via relative paths in `index.html`:
+```
+cp -r .claude/skills/report-kit/assets/* "$TMPDIR/<descriptive_folder>/"
+```
+
+This copies all three required items:
+- `style.css` — the report design system
+- `app.js` — font/color randomization, settings panel
+- `fonts/` — Exposure typeface
+
+CRITICAL: The `fonts/` directory is easy to miss because it has no file extension. If `fonts/` is missing, `app.js` fails silently — the page renders, but fonts and the settings panel are broken with no visible error. After copying, verify with `ls` that all three exist in the artifact directory.
+
+Reference these in `index.html` via relative paths:
 - `<link rel="stylesheet" href="style.css">` (already in the `<head>` template below)
 - `<script src="app.js"></script>` before `</body>`
 
